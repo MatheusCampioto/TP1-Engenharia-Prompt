@@ -1,8 +1,7 @@
 # TP1 — Engenharia de Prompt e Contexto
 
 ## MindLiner — Prototipagem do Agente de IA
-
-**Disciplina:** Engenharia de Prompt e Contexto  
+  
 **Instituição:** Unicesumar — 2026  
 **Grupo:** Matheus Campioto, Vinicius, Lauren
 
