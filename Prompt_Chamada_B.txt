@@ -1,0 +1,16 @@
+CONTEXTO RELEVANTE (apenas o necessário):
+RF-041: O sistema deve disponibilizar um agente de inteligência artificial.
+RF-042: O agente deve coletar informações fornecidas pelo usuário.
+RF-043: O agente deve sugerir métodos de estudo.
+RF-044: O agente deve sugerir metas de estudo.
+RB-036: As recomendações da IA devem considerar as informações fornecidas pelo usuário.
+RB-037: As sugestões da IA devem utilizar o histórico de estudos como base para personalização.
+RB-038: As metas sugeridas pela IA não devem substituir metas definidas manualmente sem autorização do usuário.
+RB-039: As recomendações geradas pela IA devem possuir finalidade exclusivamente educacional.
+
+Usuário informou:
+{
+  "disciplina": "Engenharia de Software",
+  "horas_semana": 3,
+  "dificuldades": "Dificuldade em entender diagrama UML e casos de uso"
+}

@@ -1,0 +1,71 @@
+CONTEXTO DO PROJETO (documento completo de requisitos):
+
+RF-001: O sistema deve permitir o cadastro de usuários.
+RF-002: O sistema deve permitir autenticação por login.
+RF-003: O sistema deve permitir recuperação de senha.
+RF-004: O sistema deve permitir a edição dos dados cadastrais.
+RF-005: O sistema deve permitir a visualização do perfil do usuário.
+RF-006: O sistema deve permitir o cadastro de disciplinas.
+RF-007: O sistema deve permitir a edição de disciplinas.
+RF-008: O sistema deve permitir o cadastro de conteúdos de estudo.
+RF-009: O sistema deve permitir a categorização de conteúdos de estudo.
+RF-010: O sistema deve permitir a criação de roteiros de estudo.
+RF-011: O sistema deve permitir a edição de roteiros de estudo.
+RF-012: O sistema deve permitir a criação de metas de estudo.
+RF-013: O sistema deve permitir a edição de metas de estudo.
+RF-014: O sistema deve permitir registrar sessões de estudo.
+RF-015: O sistema deve permitir consultar o histórico de estudos.
+RF-016: O sistema deve permitir visualizar o progresso dos estudos.
+RF-017: O sistema deve disponibilizar um cronômetro para sessões de estudo.
+RF-018: O sistema deve disponibilizar um timer para sessões de estudo.
+RF-019: O sistema deve permitir iniciar sessões de estudo.
+RF-020: O sistema deve permitir pausar sessões de estudo.
+RF-021: O sistema deve permitir encerrar as sessões de estudo.
+RF-022: O sistema deve disponibilizar opções diferentes de métodos de estudo.
+RF-023: O sistema deve registrar pontos dos usuários.
+RF-024: O sistema deve registrar moedas virtuais dos usuários.
+RF-025: O sistema deve permitir a visualização do saldo de pontos e moedas.
+RF-026: O sistema deve permitir a realização de check-ins.
+RF-027: O sistema deve exibir medalhas e conquistas.
+RF-028: O sistema deve exibir rankings de usuários.
+RF-029: O sistema deve permitir a troca de moedas por recompensas internas.
+RF-030: O sistema deve permitir a criação de grupos de estudo.
+RF-031: O sistema deve permitir o ingresso em grupos de estudo.
+RF-032: O sistema deve permitir o desligamento de grupos de estudo.
+RF-033: O sistema deve exibir os participantes dos grupos.
+RF-034: O sistema deve exibir informações dos participantes dos grupos.
+RF-035: O sistema deve permitir o compartilhamento de dicas de estudo.
+RF-036: O sistema deve disponibilizar um dashboard de desempenho.
+RF-037: O sistema deve exibir gráficos de desempenho.
+RF-038: O sistema deve exibir indicadores de desempenho.
+RF-039: O sistema deve permitir a geração de relatórios.
+RF-040: O sistema deve permitir a exportação de relatórios.
+RF-041: O sistema deve disponibilizar um agente de inteligência artificial.
+RF-042: O agente de inteligência artificial deve coletar informações fornecidas pelo usuário.
+RF-043: O agente de inteligência artificial deve sugerir métodos de estudo.
+RF-044: O agente de inteligência artificial deve sugerir metas de estudo.
+RF-045: O sistema deve permitir configurar notificações.
+RF-046: O sistema deve enviar notificações ao usuário.
+RF-047: O sistema deve permitir ativar notificações.
+RF-048: O sistema deve permitir desativar notificações.
+RF-049: O sistema deve permitir cadastrar aplicativos para bloqueio.
+RF-050: O sistema deve permitir editar a lista de aplicativos bloqueados.
+RF-051: O sistema deve executar o bloqueio dos aplicativos configurados durante sessões de estudo.
+RF-052: O sistema deve permitir a aplicação de filtros de acessibilidade visual.
+RF-053: O sistema deve permitir alternar entre modo claro e modo escuro.
+RF-054: O sistema deve permitir personalizar as cores das disciplinas.
+RF-055: O sistema deve permitir selecionar pacotes de ícones.
+RF-056: O sistema deve exibir diferentes versões visuais dos pacotes de ícones.
+RF-057: O sistema deve permitir restaurar a personalização padrão.
+RF-058: O sistema deve permitir pesquisar GIFs para personalização visual.
+RF-059: O sistema deve permitir visualizar as personalizações aplicadas ao perfil.
+
+---
+
+Com base em todo esse contexto, sugira método de estudo e meta para o seguinte usuário:
+
+{
+  "disciplina": "Engenharia de Software",
+  "horas_semana": 3,
+  "dificuldades": "Dificuldade em entender diagrama UML e casos de uso"
+}
