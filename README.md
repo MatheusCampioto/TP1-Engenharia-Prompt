@@ -16,7 +16,10 @@ Modelo utilizado: Gemini 3.7 Flash (Google AI Studio)
 - `Prompt_Chamada_B.txt` — Prompt com contexto cirúrgico (4 RFs + 4 RBs)
 - `MindLiner_TP1_Documento.docx` — Documento com justificativas completas
 - `MindLiner_TP1.pptx` — Slides da apresentação
-- `prints/` — Evidências das chamadas no AI Studio
+- `print_1_system_prompt.jpeg` — Evidência: system prompt no AI Studio antes das chamadas
+- `print_2_chamada_a.jpeg` — Evidência: prompt Chamada A com 1.396 tokens antes de rodar
+- `print_3_chamada_b.jpeg` — Evidência: resposta Chamada A com 1.705 tokens
+- `print_4_resposta_b.jpeg` — Evidência: resposta Chamada B com 2.218 tokens
 
 ## Resultado
 - Chamada A (contexto inflado): 1.458 tokens de input
