@@ -25,3 +25,8 @@ Modelo utilizado: Gemini 3.7 Flash (Google AI Studio)
 - Chamada B (contexto cirúrgico): 513 tokens de input
 - **Redução de 65%** sem perda de qualidade
 - Custo total da sessão: $0,001647
+
+Integrantes 
+Matheus Felipe Campioto Catenacci 22014137-2
+Vinícius Seifert Fonceca 21044082-2
+Lauren Kunz e Silva 23118770-2
