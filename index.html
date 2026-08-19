@@ -52,37 +52,6 @@
     input:focus, textarea:focus { border-color: #ff6b00; }
     textarea { resize: vertical; min-height: 70px; }
 
-    /* TABS */
-    .tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
-    .tab {
-      flex: 1;
-      min-width: 140px;
-      padding: 10px 12px;
-      border-radius: 8px;
-      border: 1px solid #333;
-      background: #111;
-      color: #888;
-      font-size: 0.82rem;
-      cursor: pointer;
-      text-align: center;
-      transition: all 0.2s;
-      line-height: 1.4;
-    }
-    .tab:hover { border-color: #ff6b00; color: #ccc; }
-    .tab.active { background: #ff6b00; border-color: #ff6b00; color: #fff; font-weight: 600; }
-    .tab-title { font-weight: 700; display: block; margin-bottom: 2px; }
-    .tab-sub { font-size: 0.72rem; opacity: 0.8; }
-
-    .mode-desc {
-      background: #111;
-      border-left: 3px solid #ff6b00;
-      border-radius: 0 6px 6px 0;
-      padding: 10px 14px;
-      font-size: 0.82rem;
-      color: #aaa;
-      margin-bottom: 6px;
-    }
-
     button.btn-gerar {
       margin-top: 20px;
       width: 100%;
@@ -107,18 +76,12 @@
     }
     .loading { text-align: center; color: #888; padding: 16px; display: none; }
 
-    /* RESULT */
     .result-card {
       background: #1a1a1a; border: 1px solid #2a2a2a;
       border-radius: 12px; padding: 28px;
       width: 100%; max-width: 640px; display: none;
     }
     .result-card h2 { font-size: 0.85rem; color: #ff6b00; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; }
-    .res-mode-badge {
-      display: inline-block; background: #222; border: 1px solid #ff6b00;
-      color: #ff6b00; border-radius: 6px; padding: 4px 12px;
-      font-size: 0.78rem; font-weight: 600; margin-bottom: 16px;
-    }
     .result-section {
       background: #111; border: 1px solid #252525;
       border-radius: 8px; padding: 14px; margin-bottom: 14px;
@@ -153,14 +116,12 @@
   <p>Agente de IA — Sugestão de Método e Meta de Estudo</p>
 </header>
 
-<!-- API KEY -->
 <div class="card">
   <h2>🔑 API Key do Gemini</h2>
   <p style="font-size:0.8rem;color:#666;margin-bottom:10px">A key fica só no navegador, nunca vai ao servidor.</p>
   <input type="password" id="apiKey" placeholder="Cole sua Gemini API Key aqui" />
 </div>
 
-<!-- FORMULÁRIO -->
 <div class="card">
   <h2>📋 Dados do Usuário</h2>
 
@@ -172,40 +133,14 @@
 
   <label>Principais dificuldades</label>
   <textarea id="dificuldades" placeholder="Ex: Dificuldade em entender diagrama UML e casos de uso"></textarea>
-</div>
-
-<!-- MODO DE CHAMADA -->
-<div class="card">
-  <h2>⚙️ Modo de Chamada</h2>
-
-  <div class="tabs">
-    <div class="tab active" onclick="setModo('A', this)">
-      <span class="tab-title">Chamada A</span>
-      <span class="tab-sub">Contexto Inflado<br/>59 RFs completos</span>
-    </div>
-    <div class="tab" onclick="setModo('B', this)">
-      <span class="tab-title">Chamada B</span>
-      <span class="tab-sub">Contexto Cirúrgico<br/>4 RFs + 4 RBs</span>
-    </div>
-    <div class="tab" onclick="setModo('C', this)">
-      <span class="tab-title">Chamada C</span>
-      <span class="tab-sub">Few-Shot + JSON<br/>Técnica aplicada</span>
-    </div>
-  </div>
-
-  <div class="mode-desc" id="modeDesc">
-    <strong>Chamada A — Contexto Inflado:</strong> envia todos os 59 Requisitos Funcionais do MindLiner no prompt. Usado para medir o custo de excesso de contexto.
-  </div>
 
   <button class="btn-gerar" onclick="chamarAgente()" id="btnGerar">🧠 Gerar Sugestão</button>
   <div class="error" id="erro"></div>
   <div class="loading" id="loading"><p>⏳ Consultando o agente...</p></div>
 </div>
 
-<!-- RESULTADO -->
 <div class="result-card" id="resultado">
   <h2>✅ Resultado</h2>
-  <div class="res-mode-badge" id="resBadge">Chamada A</div>
 
   <div class="result-section">
     <h3>Método de Estudo Sugerido</h3>
@@ -229,7 +164,6 @@
   <div class="json-raw" id="jsonRaw"></div>
 
   <div class="tokens-row">
-    <div>Modo: <strong id="tok-modo">—</strong></div>
     <div>Tokens Input: <strong id="tok-in">—</strong></div>
     <div>Tokens Output: <strong id="tok-out">—</strong></div>
     <div>Custo Estimado: <strong id="custo">—</strong></div>
@@ -241,8 +175,6 @@
 </footer>
 
 <script>
-let modoAtual = 'A';
-
 const SYSTEM_PROMPT = `Você é um agente educacional do MindLiner, sistema de apoio ao estudo.
 Seu objetivo é sugerir métodos de estudo e metas personalizadas com base nas informações fornecidas pelo usuário.
 
@@ -267,66 +199,6 @@ Responda SEMPRE em JSON válido, sem texto adicional, no seguinte formato:
   "observacoes": "string"
 }`;
 
-const RFS_COMPLETOS = `RF-001: O sistema deve permitir o cadastro de usuários.
-RF-002: O sistema deve permitir autenticação por login.
-RF-003: O sistema deve permitir recuperação de senha.
-RF-004: O sistema deve permitir a edição dos dados cadastrais.
-RF-005: O sistema deve permitir a visualização do perfil do usuário.
-RF-006: O sistema deve permitir o cadastro de disciplinas.
-RF-007: O sistema deve permitir a edição de disciplinas.
-RF-008: O sistema deve permitir o cadastro de conteúdos de estudo.
-RF-009: O sistema deve permitir a edição de conteúdos de estudo.
-RF-010: O sistema deve permitir a visualização dos conteúdos cadastrados.
-RF-011: O sistema deve permitir o registro de sessões de estudo.
-RF-012: O sistema deve permitir a edição de sessões de estudo.
-RF-013: O sistema deve exibir o tempo de estudo acumulado por disciplina.
-RF-014: O sistema deve permitir configurar o temporizador Pomodoro.
-RF-015: O sistema deve iniciar e pausar o temporizador Pomodoro.
-RF-016: O sistema deve registrar os ciclos Pomodoro concluídos.
-RF-017: O sistema deve permitir o cadastro de metas de estudo.
-RF-018: O sistema deve permitir a edição de metas de estudo.
-RF-019: O sistema deve exibir o progresso das metas.
-RF-020: O sistema deve notificar quando uma meta for concluída.
-RF-021: O sistema deve permitir o cadastro de roteiros de estudo.
-RF-022: O sistema deve permitir a edição de roteiros de estudo.
-RF-023: O sistema deve atribuir pontos por ações de estudo.
-RF-024: O sistema deve exibir o ranking de usuários por pontuação.
-RF-025: O sistema deve conceder medalhas por conquistas.
-RF-026: O sistema deve exibir as medalhas conquistadas.
-RF-027: O sistema deve permitir o resgate de recompensas com pontos.
-RF-028: O sistema deve exibir o histórico de transações de pontos.
-RF-029: O sistema deve exibir o progresso geral de gamificação.
-RF-030: O sistema deve permitir a criação de grupos de estudo.
-RF-031: O sistema deve permitir o ingresso em grupos de estudo.
-RF-032: O sistema deve permitir a publicação de conteúdos no grupo.
-RF-033: O sistema deve permitir o compartilhamento de dicas de estudo.
-RF-034: O sistema deve exibir o feed de publicações do grupo.
-RF-035: O sistema deve permitir a saída de grupos de estudo.
-RF-036: O sistema deve gerar relatórios de desempenho por disciplina.
-RF-037: O sistema deve exibir gráficos de evolução do estudo.
-RF-038: O sistema deve permitir exportar relatórios em PDF.
-RF-039: O sistema deve exibir resumo semanal de atividades.
-RF-040: O sistema deve permitir filtrar relatórios por período.
-RF-041: O sistema deve disponibilizar um agente de IA para sugestão de métodos de estudo.
-RF-042: O sistema deve permitir que o agente colete informações do usuário.
-RF-043: O sistema deve permitir que o agente sugira metas personalizadas.
-RF-044: O sistema deve exibir as sugestões do agente de forma estruturada.
-RF-045: O sistema deve enviar notificações de lembrete de estudo.
-RF-046: O sistema deve permitir configurar os horários de notificação.
-RF-047: O sistema deve notificar sobre metas próximas do prazo.
-RF-048: O sistema deve permitir desativar notificações.
-RF-049: O sistema deve permitir o cadastro de aplicativos a bloquear.
-RF-050: O sistema deve permitir ativar o modo foco com bloqueio.
-RF-051: O sistema deve bloquear aplicativos durante sessões de foco.
-RF-052: O sistema deve permitir personalizar o avatar do usuário.
-RF-053: O sistema deve permitir configurar tema visual.
-RF-054: O sistema deve suportar modo escuro e claro.
-RF-055: O sistema deve permitir configurações de acessibilidade.
-RF-056: O sistema deve suportar diferentes tamanhos de fonte.
-RF-057: O sistema deve permitir personalizar o workspace de estudo.
-RF-058: O sistema deve permitir pesquisar GIFs para personalização visual.
-RF-059: O sistema deve permitir visualizar as personalizações aplicadas ao perfil.`;
-
 const RFS_CIRURGICOS = `RF-041: O sistema deve disponibilizar um agente de IA para sugestão de métodos de estudo.
 RF-042: O sistema deve permitir que o agente colete informações do usuário.
 RF-043: O sistema deve permitir que o agente sugira metas personalizadas.
@@ -337,45 +209,20 @@ RB-037: O agente deve utilizar o histórico de estudos como base para personaliz
 RB-038: O agente não deve substituir metas definidas manualmente sem autorização do usuário.
 RB-039: As recomendações geradas pela IA devem possuir finalidade exclusivamente educacional.`;
 
-const FEW_SHOT_EXEMPLOS = `
+const FEW_SHOT = `
 --- EXEMPLO 1 ---
 Usuário informou:
 {"disciplina": "Matemática", "horas_semana": 2, "dificuldades": "Dificuldade com álgebra e equações"}
 Resposta:
-{"metodo_sugerido":{"nome":"Prática Deliberada com Exercícios Progressivos","descricao":"Resolução diária de exercícios começando pelos conceitos básicos e avançando gradualmente.","justificativa":"Com apenas 2 horas semanais e dificuldade em álgebra, exercícios progressivos fixam a base sem sobrecarregar."},"meta_sugerida":{"descricao":"Dominar equações de 1º e 2º grau","objetivo":"Resolver 10 exercícios por semana com acerto acima de 80%","prazo_sugerido":"3 semanas"},"observacoes":"Recomendação baseada nas informações fornecidas. Esta sugestão não substitui metas já definidas manualmente sem sua confirmação [RB-038]."}
+{"metodo_sugerido":{"nome":"Prática Deliberada com Exercícios Progressivos","descricao":"Resolução diária de exercícios começando pelos conceitos básicos e avançando gradualmente.","justificativa":"Com apenas 2 horas semanais e dificuldade em álgebra, exercícios progressivos fixam a base sem sobrecarregar."},"meta_sugerida":{"descricao":"Dominar equações de 1º e 2º grau","objetivo":"Resolver 10 exercícios por semana com acerto acima de 80%","prazo_sugerido":"3 semanas"},"observacoes":"Esta sugestão não substitui metas já definidas manualmente sem sua confirmação [RB-038]."}
 
 --- EXEMPLO 2 ---
 Usuário informou:
 {"disciplina": "Programação", "horas_semana": 5, "dificuldades": "Dificuldade em lógica e estruturas de dados"}
 Resposta:
-{"metodo_sugerido":{"nome":"Aprendizado Baseado em Projetos (PBL)","descricao":"Construção de pequenos projetos práticos que exigem aplicação de lógica e estruturas de dados.","justificativa":"Com 5 horas semanais disponíveis, projetos práticos consolidam a lógica mais rapidamente que exercícios teóricos isolados."},"meta_sugerida":{"descricao":"Implementar 2 estruturas de dados básicas","objetivo":"Criar uma lista encadeada e uma pilha funcionando do zero","prazo_sugerido":"2 semanas"},"observacoes":"Sugestão gerada com base nos dados informados. Não substitui metas manuais sem autorização explícita."}
+{"metodo_sugerido":{"nome":"Aprendizado Baseado em Projetos (PBL)","descricao":"Construção de pequenos projetos práticos que exigem aplicação de lógica e estruturas de dados.","justificativa":"Com 5 horas semanais disponíveis, projetos práticos consolidam a lógica mais rapidamente que exercícios teóricos isolados."},"meta_sugerida":{"descricao":"Implementar 2 estruturas de dados básicas","objetivo":"Criar uma lista encadeada e uma pilha funcionando do zero","prazo_sugerido":"2 semanas"},"observacoes":"Não substitui metas manuais sem autorização explícita."}
 
 --- AGORA RESPONDA ---`;
-
-const MODO_DESC = {
-  A: '<strong>Chamada A — Contexto Inflado:</strong> envia todos os 59 Requisitos Funcionais no prompt. Usado para medir o custo de excesso de contexto. <em>Sem few-shot.</em>',
-  B: '<strong>Chamada B — Contexto Cirúrgico:</strong> envia apenas os 4 RFs do agente (RF-041 a 044) e 4 Regras de Negócio (RB-036 a 039). Redução de 65% nos tokens. <em>Sem few-shot.</em>',
-  C: '<strong>Chamada C — Few-Shot + JSON Mode:</strong> usa contexto cirúrgico + 2 exemplos de entrada/saída dentro do prompt. Calibra formato (JSON puro) e qualidade das justificativas.'
-};
-
-function setModo(modo, el) {
-  modoAtual = modo;
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById('modeDesc').innerHTML = MODO_DESC[modo];
-  document.getElementById('resultado').style.display = 'none';
-}
-
-function buildPrompt(modo, userInput) {
-  if (modo === 'A') {
-    return `CONTEXTO DO PROJETO (documento completo de requisitos):\n${RFS_COMPLETOS}\n\nCom base em todo esse contexto, sugira método de estudo e meta para o seguinte usuário:\n${userInput}`;
-  }
-  if (modo === 'B') {
-    return `CONTEXTO DO PROJETO (apenas requisitos relevantes):\n${RFS_CIRURGICOS}\n\nCom base nesse contexto, sugira método de estudo e meta para o seguinte usuário:\n${userInput}`;
-  }
-  // C: few-shot
-  return `CONTEXTO DO PROJETO (apenas requisitos relevantes):\n${RFS_CIRURGICOS}\n${FEW_SHOT_EXEMPLOS}\nUsuário informou:\n${userInput}`;
-}
 
 async function chamarAgente() {
   const apiKey = document.getElementById('apiKey').value.trim();
@@ -393,7 +240,7 @@ async function chamarAgente() {
   if (!dificuldades) { mostrarErro('Descreva suas dificuldades.'); return; }
 
   const userInput = JSON.stringify({ disciplina, horas_semana: parseInt(horas), dificuldades });
-  const promptCompleto = buildPrompt(modoAtual, userInput);
+  const prompt = `CONTEXTO DO PROJETO (apenas requisitos relevantes):\n${RFS_CIRURGICOS}\n${FEW_SHOT}\nUsuário informou:\n${userInput}`;
 
   document.getElementById('btnGerar').disabled = true;
   document.getElementById('loading').style.display = 'block';
@@ -406,7 +253,7 @@ async function chamarAgente() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
-          contents: [{ role: 'user', parts: [{ text: promptCompleto }] }],
+          contents: [{ role: 'user', parts: [{ text: prompt }] }],
           generationConfig: { temperature: 0.7, maxOutputTokens: 1024 }
         })
       }
@@ -428,13 +275,9 @@ async function chamarAgente() {
     document.getElementById('res-obs').textContent = json.observacoes || '—';
     document.getElementById('jsonRaw').textContent = JSON.stringify(json, null, 2);
 
-    const modoLabels = { A: 'Chamada A — Contexto Inflado', B: 'Chamada B — Contexto Cirúrgico', C: 'Chamada C — Few-Shot + JSON' };
-    document.getElementById('resBadge').textContent = modoLabels[modoAtual];
-
     const tokIn = data.usageMetadata?.promptTokenCount || 0;
     const tokOut = data.usageMetadata?.candidatesTokenCount || 0;
     const custo = ((tokIn / 1_000_000) * 0.075 + (tokOut / 1_000_000) * 0.30).toFixed(8);
-    document.getElementById('tok-modo').textContent = modoLabels[modoAtual];
     document.getElementById('tok-in').textContent = tokIn;
     document.getElementById('tok-out').textContent = tokOut;
     document.getElementById('custo').textContent = `$${custo}`;
